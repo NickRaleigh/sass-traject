@@ -1,1 +1,2 @@
-# sass-traject - an extensible, cross-browser, sass-based layout mixin
+# sass-traject 
+## An extensible, cross-browser, sass-based layout mixin
