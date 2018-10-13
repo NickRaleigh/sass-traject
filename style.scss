@@ -1,0 +1,34 @@
+@import 'src/include-media';
+@import 'src/parse-helper';
+@import 'src/traject';
+@import 'src/gridTraject';
+
+*{ margin: 0; padding: 0; }
+
+
+.box {
+$boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
+ @include gridTraject($boxObj, (
+
+  'default': [
+    'nav body body',
+    'nav body body',
+    'sidebar body body'
+  ],
+
+   '<tablet': [
+      'nav body body',
+      'nav sidebar sidebar',
+      _hide_sidebar,
+      _show_nav
+   ]
+
+ ));
+
+  height: 100vh;
+  width: 100vw;
+  &__nav { background-color: blue; }
+  &__body { background-color: green; }
+  &__sidebar { background-color: red; }
+}
+

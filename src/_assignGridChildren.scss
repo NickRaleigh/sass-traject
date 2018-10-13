@@ -1,0 +1,8 @@
+@mixin assignGridChildren($obj:()) {
+  @each $name, $selector in $obj {
+    #{$selector} {
+      grid-area: $name;
+    }
+  }
+}
+

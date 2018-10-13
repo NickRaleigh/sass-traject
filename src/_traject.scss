@@ -1,0 +1,11 @@
+@mixin traject($property, $breakpoints:[]) {
+
+  @each $breakpoint in $breakpoints {
+    $tmpArr: str-split($breakpoint,': ');
+    $currentBp: unquote(nth($tmpArr, 1));
+    $currentProp: unquote(nth($tmpArr, 2));
+    @include media('screen', '#{$currentBp}') {
+      #{$property}: #{$currentProp};
+    }
+  }
+}
