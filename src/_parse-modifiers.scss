@@ -1,7 +1,7 @@
 @mixin parseModifiers($obj, $breakPoint, $gridModifiers) {
   @each $modifier in $gridModifiers {
     $modifier: str-replace($modifier, $search:'_', $replace: '');
-    $modifierArr: str-split($modifier, '/');
+    $modifierArr: str-split($modifier, ' ');
     $action: unquote(nth($modifierArr, 1));
     $target: unquote(nth($modifierArr, 2));
     $selector: map-get($obj, $target);

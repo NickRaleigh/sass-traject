@@ -1,0 +1,75 @@
+@import 'debugger';
+@mixin parseIE($obj, $gridTemplate, $breakPoint) {
+  display:-ms-grid;
+
+  //convert grid template to map:
+  $masterColumnCount: null;
+  $templateMaster: ();
+  $i: 1;
+  @each $row in $gridTemplate {
+    $row: str-replace($row, $search:',', $replace: '');
+    $row: str-replace($row, $search:'"', $replace: '');
+    $row: str-replace($row, $search:')', $replace: '');
+    $row: str-replace($row, $search:'(', $replace: '');
+
+    $rowArr: str-split(unquote($row), ' ');
+    $masterColumnCount: length($rowArr);
+    $templateMaster: map-merge($templateMaster, (#{$i}: $rowArr));
+    $i: $i + 1;
+  }
+
+  // $templateMaster: (
+  //   1: nav body body,
+  //   3: sidebar body body
+  // )
+  // 
+  // 12
+  // 13
+  // 22
+  // 23
+
+  $masterRowCount: length($templateMaster);
+  $masterColumnCount: $masterColumnCount;
+  // loop over children
+  @each $child, $selector in $obj {
+    $origin-row: null;
+    $origin-column: null;
+    $span-x: null;
+    $span-y: null;
+    $coordinates: null;
+    // loop over rows
+    @each $rowNumber, $row in $templateMaster {
+      $currentRow: map-get($templateMaster, $rowNumber);
+      // loop over columns
+      $columnNumber: 1;
+      @each $column in $row {
+        // get coordinates
+        @if ($column == $child) {
+          $joinedCoordinates: to-number(#{$rowNumber}#{$columnNumber});
+          @if ($coordinates == null) {
+            $coordinates: $joinedCoordinates;
+          } @else {
+            $coordinates: join($coordinates, $joinedCoordinates);
+          }
+        }
+        $columnNumber: $columnNumber + 1;
+      }
+    }
+    $originCoordinate: min($coordinates...);
+    $gridRow: to-number(str-slice(quote($originCoordinate), 1,1));
+    $gridColumn: to-number(str-slice(quote($originCoordinate), 2,2));
+
+    #{$selector} {
+      @if ($breakPoint == 'default') {
+        -ms-grid-row: $gridRow;
+        -ms-grid-column: $gridColumn;
+      } @else {
+        @include media('screen', '#{$breakPoint}') {
+          -ms-grid-row: $gridRow;
+          -ms-grid-column: $gridColumn;
+        }
+      }
+
+    }
+  }
+}

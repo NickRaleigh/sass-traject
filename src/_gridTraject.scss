@@ -1,5 +1,6 @@
 @import 'assignGridChildren';
 @import 'parse-modifiers';
+@import 'parse-ie';
 
 @mixin gridTraject($obj:(), $settingsObj:()) {
   // create grid
@@ -46,5 +47,9 @@
 
     //process grid modifiers
     @include parseModifiers($obj, $breakPoint, $gridModifiers);
+
+    // parse gridTraject for internet explorer
+    @include parseIE($obj, $gridTemplate, $breakPoint);
+
   }
 }
