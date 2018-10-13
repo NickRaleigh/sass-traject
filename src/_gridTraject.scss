@@ -49,7 +49,9 @@
     @include parseModifiers($obj, $breakPoint, $gridModifiers);
 
     // parse gridTraject for internet explorer
-    @include parseIE($obj, $gridTemplate, $breakPoint);
+    $preventDefaultDuplicates: 0;
+    $preventBpDuplicates: 0;
+    @include parseIE($obj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
 
   }
 }

@@ -1,5 +1,5 @@
 @import 'debugger';
-@mixin parseIE($obj, $gridTemplate, $breakPoint) {
+@mixin parseIE($obj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates) {
   display:-ms-grid;
 
   //convert grid template to map:
@@ -55,18 +55,68 @@
         $columnNumber: $columnNumber + 1;
       }
     }
-    $originCoordinate: min($coordinates...);
-    $gridRow: to-number(str-slice(quote($originCoordinate), 1,1));
-    $gridColumn: to-number(str-slice(quote($originCoordinate), 2,2));
+
+    // calculate spans
+    $row-span: null;
+    $column-span: null;
+    @each $point in $coordinates {
+      $extractedRow: to-number(str-slice(quote($point), 1,1));
+      $extractedColumn: to-number(str-slice(quote($point), 2,2));
+      @if ($row-span == null) {
+        $row-span: $extractedRow;
+      }
+      @else {
+        $row-span: join($row-span, $extractedRow);
+      }
+      @if ($column-span == null) {
+        $column-span: $extractedColumn;
+      }
+      @else {
+        $column-span: join($column-span, $extractedColumn);
+      }
+    }
+
+    $row-span: max($row-span...) - min($row-span...) + 1;
+    $column-span: max($column-span...) - min($column-span...) + 1;
+
+
+    // calculate origins
+    $originCoordinate: quote(min($coordinates...));
+    $gridRow: to-number(str-slice($originCoordinate, 1,1));
+    $gridColumn: to-number(str-slice($originCoordinate, 2,2));
+
+    //calculate ms-grid-columns
+    $msGridRows: unquote(str-repeat("1fr ", $masterRowCount));
+    $msGridColumns: unquote(str-repeat("1fr ", $masterColumnCount));
+
+    @if ($breakPoint == 'default') {
+      @if ($preventDefaultDuplicates == 0){
+        -ms-grid-columns: $msGridColumns;
+        -ms-grid-rows: $msGridRows;
+        $preventDefaultDuplicates: 1;
+      }
+      } @else {
+      @if ($preventBpDuplicates == 0) {
+        @include media('screen', '#{$breakPoint}') {
+          -ms-grid-columns: $msGridColumns;
+          -ms-grid-rows: $msGridRows;
+          $preventDefaultDuplicates: 1;
+          }
+        }
+      }
 
     #{$selector} {
       @if ($breakPoint == 'default') {
         -ms-grid-row: $gridRow;
         -ms-grid-column: $gridColumn;
+        -ms-grid-row-span: $row-span;
+        -ms-grid-column-span: $column-span;
       } @else {
         @include media('screen', '#{$breakPoint}') {
           -ms-grid-row: $gridRow;
           -ms-grid-column: $gridColumn;
+          -ms-grid-row-span: $row-span;
+          -ms-grid-column-span: $column-span;
         }
       }
 

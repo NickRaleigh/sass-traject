@@ -79,3 +79,13 @@
   
   @return $value * map-get($units, $unit);
 }
+
+@function str-repeat($string, $times) {
+  $result: "";
+
+  @for $i from 1 through $times {
+    $result: $result + $string;
+  }
+
+  @return $result;
+}
