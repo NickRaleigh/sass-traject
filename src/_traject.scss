@@ -1,11 +1,57 @@
-@mixin traject($property, $breakpoints:[]) {
+@import 'assignGridChildren';
+@import 'parse-modifiers';
+@import 'parse-ie';
 
-  @each $breakpoint in $breakpoints {
-    $tmpArr: str-split($breakpoint,': ');
-    $currentBp: unquote(nth($tmpArr, 1));
-    $currentProp: unquote(nth($tmpArr, 2));
-    @include media('screen', '#{$currentBp}') {
-      #{$property}: #{$currentProp};
+@mixin traject($obj:(), $settingsObj:()) {
+  // create grid
+  display: grid;
+
+  // name template-areas of children
+  @include assignGridChildren($obj);
+
+  // loop over entire object
+  @each $breakPoint, $settings in $settingsObj {
+    $gridTemplate: [];
+    $gridModifiers: [];
+
+    //loop over each setting to remove grid-template-area from special grid modifiers.
+    @each $setting in $settings {
+      $first-char: str-slice(quote($setting), 1,1);
+      @if ($first-char != _) {
+        $gridTemplate: join($gridTemplate, $setting, comma);
+      }
+      @else {
+        $gridModifiers: join($gridModifiers, $setting, comma);
+      }
     }
+
+    // convert gridTemplate to set of strings for css
+    $gridTemplateCss: null;
+    @each $row in $gridTemplate {
+      @if ($gridTemplateCss == null) {
+        $gridTemplateCss: $row;
+      }
+      @else {
+        $gridTemplateCss: join($gridTemplateCss,$row, space);
+      }
+    }
+
+    //check breakpoint & assign css
+    @if ($breakPoint == 'default') {
+      grid-template-areas: $gridTemplateCss;
+    } @else {
+      @include media('screen', '#{$breakPoint}') {
+        grid-template-areas: $gridTemplateCss;
+      }
+    }
+
+    //process grid modifiers
+    @include parseModifiers($obj, $breakPoint, $gridModifiers);
+
+    // parse traject for internet explorer
+    $preventDefaultDuplicates: 0;
+    $preventBpDuplicates: 0;
+    @include parseIE($obj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
+
   }
 }

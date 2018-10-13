@@ -1,17 +1,17 @@
 @import 'src/include-media';
 @import 'src/parse-helper';
 @import 'src/traject';
-@import 'src/gridTraject';
+@import 'src/traject';
 
 *{ margin: 0; padding: 0; }
 
 
 .box {
 $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
- @include gridTraject($boxObj, (
+ @include traject($boxObj, (
 
   'default': [
-    'nav body body',
+    'nav . .',
     'sidebar body body'
   ],
 
