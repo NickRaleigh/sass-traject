@@ -1,7 +1,7 @@
 @mixin parseModifiers($obj, $breakPoint, $gridModifiers) {
   @each $modifier in $gridModifiers {
     $modifier: str-replace($modifier, $search:'_', $replace: '');
-    $modifierArr: str-split($modifier, ' ');
+    $modifierArr: str-split($modifier, ':');
     $action: unquote(nth($modifierArr, 1));
     $target: unquote(nth($modifierArr, 2));
     $selector: map-get($obj, $target);
@@ -9,7 +9,7 @@
     #{$selector} {
       @if ($breakPoint == 'default') {
         @if ($action == 'show') {
-          display: initial;
+          display: block;
         }
         @else if ($action == 'hide') {
           display: none;
@@ -17,6 +17,8 @@
       } @else {
         @include media('screen', '#{$breakPoint}') {
           @if ($action == 'show') {
+            // internet explorer does not support display:initial, so it will default to block.
+            display: block;
             display: initial;
           }
           @else if ($action == 'hide') {

@@ -11,7 +11,7 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
  @include traject($boxObj, (
 
   'default': [
-    'nav . .',
+    'nav body body',
     'sidebar body body'
   ],
 
@@ -23,23 +23,27 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
   '<=550px': [
     'nav',
     'body',
-    '_hide sidebar'
-  ]
+    '_hide:sidebar'
+  ],
 
-   // '<tablet': [
-   //   'nav body body',
-   //   'nav sidebar sidebar',
-   // ],
+  '<=500px': [
+    'body body sidebar',
+    '_show:sidebar',
+    '_hide:nav'
+  ]
 
    // '<550px' : [
    //   'nav',
    //   'body',
    //   '_column-width 1fr/1fr',
    //   '_flex(co-c-a) nav',
-   //   '_hide sidebar',
+   //   '_hide:sidebar',
    // ]
 
  ));
+
+ $test: '_flex(co-"is this a thing"-a):test';
+ @debug $test;
 
   height: 100vh;
   width: 100vw;
