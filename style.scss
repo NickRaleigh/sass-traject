@@ -17,10 +17,14 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
   ],
 
    '<tablet': [
-      'nav body body',
-      'nav sidebar sidebar',
-      _hide_sidebar,
-      _show_nav
+     'nav body body',
+     'nav sidebar sidebar',
+   ],
+
+   '<550px' : [
+     'nav',
+     'body',
+     _hide/sidebar
    ]
 
  ));

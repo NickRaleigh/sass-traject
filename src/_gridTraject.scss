@@ -1,4 +1,5 @@
 @import 'assignGridChildren';
+@import 'parse-modifiers';
 
 @mixin gridTraject($obj:(), $settingsObj:()) {
   // create grid
@@ -42,7 +43,8 @@
         grid-template-areas: $gridTemplateCss;
       }
     }
+
+    //process grid modifiers
+    @include parseModifiers($obj, $breakPoint, $gridModifiers);
   }
-
-
 }
