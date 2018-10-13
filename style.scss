@@ -13,6 +13,17 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
   'default': [
     'nav body body',
     'sidebar body body'
+  ],
+
+  '<=tablet': [
+    'nav body body',
+    'nav sidebar sidebar'
+  ],
+
+  '<=550px': [
+    'nav',
+    'body',
+    '_hide sidebar'
   ]
 
    // '<tablet': [
@@ -23,7 +34,8 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
    // '<550px' : [
    //   'nav',
    //   'body',
-   //   '_column-width 1fr/1fr'
+   //   '_column-width 1fr/1fr',
+   //   '_flex(co-c-a) nav',
    //   '_hide sidebar',
    // ]
 
