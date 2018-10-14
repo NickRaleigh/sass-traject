@@ -17,16 +17,6 @@
     $i: $i + 1;
   }
 
-  // $templateMaster: (
-  //   1: nav body body,
-  //   3: sidebar body body
-  // )
-  // 
-  // 12
-  // 13
-  // 22
-  // 23
-
   $masterRowCount: length($templateMaster);
   $masterColumnCount: $masterColumnCount;
   // loop over children

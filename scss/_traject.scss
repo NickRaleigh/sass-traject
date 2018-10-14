@@ -1,6 +1,6 @@
-@import 'assignGridChildren';
-@import 'parse-modifiers';
-@import 'parse-ie';
+@import 'traject-assign-children';
+@import 'traject-parse-modifiers';
+@import 'traject-parse-ie';
 
 @mixin traject($obj:(), $settingsObj:()) {
   // create grid

@@ -1,3 +1,5 @@
+@import 'traject-modifiers';
+
 @mixin parseModifiers($obj, $breakPoint, $gridModifiers) {
   @each $modifier in $gridModifiers {
     $modifier: str-replace($modifier, $search:'_', $replace: '');

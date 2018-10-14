@@ -1,4 +1,4 @@
 let mix = require('laravel-mix');
 
-mix.sass('style.scss', './');
+mix.sass('scss/style.scss', './');
 

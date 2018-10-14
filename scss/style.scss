@@ -1,7 +1,7 @@
-@import 'src/include-media';
-@import 'src/parse-helper';
-@import 'src/traject';
-@import 'src/traject';
+@import 'include-media';
+@import 'traject-parse-helper';
+@import 'traject';
+@import 'traject-solo';
 
 *{ margin: 0; padding: 0; }
 
@@ -32,18 +32,18 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
     '_hide:nav'
   ]
 
+  // '_flex(ro,a,b,w):nav'
+
    // '<550px' : [
    //   'nav',
    //   'body',
    //   '_column-width 1fr/1fr',
-   //   '_flex(co-c-a) nav',
-   //   '_hide:sidebar',
+   //   '@column-width(1fr,1fr)',
+   //   '@flex(co,c,a):nav',
+   //   '@hide:sidebar',
    // ]
 
  ));
-
- $test: '_flex(co-"is this a thing"-a):test';
- @debug $test;
 
   height: 100vh;
   width: 100vw;

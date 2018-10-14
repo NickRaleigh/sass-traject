@@ -1,0 +1,8 @@
+$traject-modifiers: (
+    '_flex': (
+        mixin: flexBox,
+        args: true,
+        arg-string: false,
+        target: child
+    )
+);
