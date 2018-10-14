@@ -1,12 +1,12 @@
 @import 'traject-modifiers';
 
-@mixin parseModifiers($obj, $breakPoint, $gridModifiers) {
+@mixin parseModifiers($childrenObj, $breakPoint, $gridModifiers) {
   @each $modifier in $gridModifiers {
     $modifier: str-replace($modifier, $search:'_', $replace: '');
     $modifierArr: str-split($modifier, ':');
     $action: unquote(nth($modifierArr, 1));
     $target: unquote(nth($modifierArr, 2));
-    $selector: map-get($obj, $target);
+    $selector: map-get($childrenObj, $target);
 
     #{$selector} {
       @if ($breakPoint == 'default') {

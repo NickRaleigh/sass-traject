@@ -1,4 +1,4 @@
-@mixin parseIE($obj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates) {
+@mixin parseIE($childrenObj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates) {
   display:-ms-grid;
 
   //convert grid template to map:
@@ -20,7 +20,7 @@
   $masterRowCount: length($templateMaster);
   $masterColumnCount: $masterColumnCount;
   // loop over children
-  @each $child, $selector in $obj {
+  @each $child, $selector in $childrenObj {
     $origin-row: null;
     $origin-column: null;
     $span-x: null;

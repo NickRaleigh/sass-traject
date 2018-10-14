@@ -2,12 +2,12 @@
 @import 'traject-parse-modifiers';
 @import 'traject-parse-ie';
 
-@mixin traject($obj:(), $settingsObj:()) {
+@mixin traject($childrenObj:(), $settingsObj:()) {
   // create grid
   display: grid;
 
   // name template-areas of children
-  @include assignGridChildren($obj);
+  @include assignGridChildren($childrenObj);
 
   // loop over entire object
   @each $breakPoint, $settings in $settingsObj {
@@ -46,12 +46,12 @@
     }
 
     //process grid modifiers
-    @include parseModifiers($obj, $breakPoint, $gridModifiers);
+    @include parseModifiers($childrenObj, $breakPoint, $gridModifiers);
 
     // parse traject for internet explorer
     $preventDefaultDuplicates: 0;
     $preventBpDuplicates: 0;
-    @include parseIE($obj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
+    @include parseIE($childrenObj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
 
   }
 }
