@@ -1,7 +1,24 @@
 @import 'traject-modifiers';
 
-@mixin parseModifiers($childrenObj, $breakPoint, $gridModifiers) {
-  @each $modifier in $gridModifiers {
+@mixin parseModifiers($childrenObj, $breakPoint, $modifiers) {
+  // $childrenObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
+  // $breakPoint: 'default', '<tablet'
+  // $modifiers: '_mixin',
+  //             '_mixin(arg,arg)'
+  //             '_mixin(arg,"arg")'
+  //             '_mixin(arg,"arg spaced",arg)
+  //             '_mixin(arg,arg):target'
+
+  // $traject-modifiers: (
+  //     '_flex': (
+  //         mixin: flexBox,
+  //         args: true,
+  //         arg-string: false,
+  //         target: child
+  //     )
+  // );
+
+  @each $modifier in $modifiers {
     $modifier: str-replace($modifier, $search:'_', $replace: '');
     $modifierArr: str-split($modifier, ':');
     $action: unquote(nth($modifierArr, 1));

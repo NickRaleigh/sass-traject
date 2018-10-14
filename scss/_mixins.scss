@@ -1,0 +1,9 @@
+@mixin trajectFlexBox($flow, $justify-content, $align-items, $wrap:ignore) {
+  display: flex;
+  flex-flow: $flow;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  @if ($wrap != ignore) {
+      flex-wrap: $wrap;
+  }
+}

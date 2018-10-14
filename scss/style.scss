@@ -37,10 +37,8 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
    // '<550px' : [
    //   'nav',
    //   'body',
-   //   '_column-width 1fr/1fr',
-   //   '@column-width(1fr,1fr)',
-   //   '@flex(co,c,a):nav',
-   //   '@hide:sidebar',
+   //   '_hide:sidebar',
+   //   '_flex(column,center,center,nowrap):body',
    // ]
 
  ));
