@@ -1,5 +1,11 @@
 @import 'traject-modifiers';
-@import 'mixins';
+@import 'traject-symflex';
+
+// TODO: turn this into a parser
+.box {
+  @include symflex('< = = = >');
+  // @include symflex('- - -', '&__nav');
+}
 
 @mixin parseModifiers($childrenObj, $breakPoint, $modifiers) {
 

@@ -14,8 +14,8 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
     'nav body body',
     'sidebar body body',
 
-    '_flex(column,space-around,center):nav',
-    '_flex(column,center,center):body'
+    // '_nav(- + -)',
+    // '_body(hide)'
   ],
 
   '<=tablet': [
@@ -25,10 +25,26 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
     '_hide:sidebar'
   ]
 
-  // '<=550px': [
-  //   'nav',
-  //   'body',
-  //   '_hide:sidebar'
+  //   '_nav(- - -)' row nowrap
+  //   '_nav(- - - >)' row wrap
+
+  //   '_nav(x - -)' row nowrap flex-start
+  //   '_nav(_ - -)' row nowrap flex-start flex-end
+  //   '_nav(^ - -)' row nowrap flex-start flex-start
+  //   '_nav(+ - -)' row nowrap flex-start center
+
+  //   '_nav(x - - >)' row wrap flex-start
+  //   '_nav(_ - - >)' row wrap flex-start flex-end
+  //   '_nav(^ - - >)' row wrap flex-start flex-start
+  //   '_nav(+ - - >)' row wrap flex-start center
+
+  //   '_nav(< + - - >)' reverse-row wrap flex-start center
+  //   '_nav(< + - + >)' reverse-row wrap space-between center
+  //   '_nav(< + - + - >)' reverse-row wrap space-around center
+
+  //   '_products: ^ - ^'
+
+
   // ],
 
   // '<=500px': [
