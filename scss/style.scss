@@ -12,25 +12,30 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
 
   'default': [
     'nav body body',
-    'sidebar body body'
+    'sidebar body body',
+
+    '_flex(column,space-around,center):nav',
+    '_flex(column,center,center):body'
   ],
 
   '<=tablet': [
     'nav body body',
-    'nav sidebar sidebar'
-  ],
+    'nav body body',
 
-  '<=550px': [
-    'nav',
-    'body',
     '_hide:sidebar'
-  ],
-
-  '<=500px': [
-    'body body sidebar',
-    '_show:sidebar',
-    '_hide:nav'
   ]
+
+  // '<=550px': [
+  //   'nav',
+  //   'body',
+  //   '_hide:sidebar'
+  // ],
+
+  // '<=500px': [
+  //   'body body sidebar',
+  //   '_show:sidebar',
+  //   '_hide:nav'
+  // ]
 
   // '_flex(ro,a,b,w):nav'
 

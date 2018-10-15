@@ -1,47 +1,78 @@
 @import 'traject-modifiers';
+@import 'mixins';
 
 @mixin parseModifiers($childrenObj, $breakPoint, $modifiers) {
-  // $childrenObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
-  // $breakPoint: 'default', '<tablet'
-  // $modifiers: '_mixin',
-  //             '_mixin(arg,arg)'
-  //             '_mixin(arg,"arg")'
-  //             '_mixin(arg,"arg spaced",arg)
-  //             '_mixin(arg,arg):target'
-
-  // $traject-modifiers: (
-  //     '_flex': (
-  //         mixin: flexBox,
-  //         args: true,
-  //         arg-string: false,
-  //         target: child
-  //     )
-  // );
 
   @each $modifier in $modifiers {
-    $modifier: str-replace($modifier, $search:'_', $replace: '');
-    $modifierArr: str-split($modifier, ':');
-    $action: unquote(nth($modifierArr, 1));
-    $target: unquote(nth($modifierArr, 2));
-    $selector: map-get($childrenObj, $target);
+    // '_flex(row,space-between,center):nav'
+    $parsedModifierName: str-replace($modifier, $search:'(', $replace: ' ');
+    $parsedModifierName: str-replace($parsedModifierName, $search:':', $replace: ' ');
+    $parsedModifierName: str-split($parsedModifierName, ' ');
+    $parsedModifierName: unquote(nth($parsedModifierName, 1));
 
-    #{$selector} {
+    $parsedTarget: str-split($modifier, ':');
+    $parsedTarget: unquote(nth($parsedTarget, 2));
+
+    $modifierHasArguments: false;
+    @each $name, $char in $modifier {
+      @if (str-index($name, '(')) {
+        $modifierHasArguments: true;
+      }
+    }
+
+    $parsedArguments: null;
+    @if ($modifierHasArguments) {
+      $parsedArguments: str-replace($modifier, $search:'(', $replace: '`');
+      $parsedArguments: str-replace($parsedArguments, $search:')', $replace: '`');
+      $parsedArguments: str-split($parsedArguments, '`');
+      $parsedArguments: unquote(nth($parsedArguments, 2));
+      $parsedArguments: str-split($parsedArguments, ',');
+    } 
+
+    $selector: map-get($childrenObj, $parsedTarget);
+    // flexBox
+    @if ($parsedModifierName == _flex) {
+      $flow: unquote(nth($parsedArguments, 1));
+      $align: unquote(nth($parsedArguments, 2));
+      $justify: unquote(nth($parsedArguments, 3));
+
       @if ($breakPoint == 'default') {
-        @if ($action == 'show') {
-          display: block;
+        #{$selector} {
+          @include trajectFlexBox($flow, $align, $justify);
         }
-        @else if ($action == 'hide') {
+      } @else {
+        @include media('screen', '#{$breakPoint}') {
+          @include trajectFlexBox($flow, $align, $justify);
+        }
+      }
+    }
+
+    // hide
+    @if ($parsedModifierName == _hide) {
+      @if ($breakPoint == 'default') {
+        #{$selector} {
           display: none;
         }
       } @else {
         @include media('screen', '#{$breakPoint}') {
-          @if ($action == 'show') {
-            // internet explorer does not support display:initial, so it will default to block.
+          #{$selector} {
+            display: none;
+          }
+        }
+      }
+    }
+    // show
+    @if ($parsedModifierName == _show) {
+      @if ($breakPoint == 'default') {
+        #{$selector} {
+          display: block;
+          display: initial;
+        }
+      } @else {
+          @include media('screen', '#{$breakPoint}') {
+          #{$selector} {
             display: block;
             display: initial;
-          }
-          @else if ($action == 'hide') {
-            display: none;
           }
         }
       }

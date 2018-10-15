@@ -2,9 +2,11 @@
 
 $traject-modifiers: (
     '_flex': (
-        mixin: flexBox,
-        args: true,
-        arg-string: false,
-        target: child
+        args: (flow, justify, align),
+        target-child: true,
+        rules: (
+            display: flex,
+
+        )
     )
 );
