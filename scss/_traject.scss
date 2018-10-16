@@ -1,4 +1,3 @@
-@import 'traject-assign-children';
 @import 'traject-parse-modifiers';
 @import 'traject-parse-ie';
 
@@ -7,7 +6,11 @@
   display: grid;
 
   // name template-areas of children
-  @include assignGridChildren($childrenObj);
+  @each $name, $selector in $childrenObj {
+    #{$selector} {
+      grid-area: $name;
+    }
+  }
 
   // loop over entire object
   @each $breakPoint, $settings in $settingsObj {

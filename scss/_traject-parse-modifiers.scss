@@ -1,23 +1,20 @@
-@import 'traject-modifiers';
-@import 'traject-symflex';
-
-// TODO: turn this into a parser
-// .box {
-  // @include symflex('< = = = >');
-  // @include symflex('- - -', '&__nav');
-// }
-
 @mixin parseModifiers($childrenObj, $breakPoint, $modifiers) {
 
   @each $modifier in $modifiers {
-    // '_flex(row,space-between,center):nav'
+
     $parsedModifierName: str-replace($modifier, $search:'(', $replace: ' ');
     $parsedModifierName: str-replace($parsedModifierName, $search:':', $replace: ' ');
     $parsedModifierName: str-split($parsedModifierName, ' ');
     $parsedModifierName: unquote(nth($parsedModifierName, 1));
+    $selector: false;
 
-    $parsedTarget: str-split($modifier, ':');
-    $parsedTarget: unquote(nth($parsedTarget, 2));
+    $parsedTarget: false;
+    @each $name, $char in $modifier {
+      @if (str-index($name, ':')) {
+        $parsedTarget: str-split($modifier, ':');
+        $parsedTarget: unquote(nth($parsedTarget, 2));
+      }
+    }
 
     $modifierHasArguments: false;
     @each $name, $char in $modifier {
@@ -32,10 +29,13 @@
       $parsedArguments: str-replace($parsedArguments, $search:')', $replace: '`');
       $parsedArguments: str-split($parsedArguments, '`');
       $parsedArguments: unquote(nth($parsedArguments, 2));
-      $parsedArguments: str-split($parsedArguments, ',');
+      $parsedArguments: str-split($parsedArguments, ' ');
     } 
 
-    $selector: map-get($childrenObj, $parsedTarget);
+    @if ($parsedTarget) {
+      $selector: map-get($childrenObj, $parsedTarget);
+    }
+
     // flexBox
     @if ($parsedModifierName == _flex) {
       $flow: unquote(nth($parsedArguments, 1));
@@ -81,6 +81,32 @@
             display: block;
             display: initial;
           }
+        }
+      }
+    }
+
+    // grid template rows
+    @if ($parsedModifierName == _templateRows) {
+      @if ($breakPoint == 'default') {
+        grid-template-rows: $parsedArguments;
+        -ms-grid-rows: $parsedArguments !important;
+      } @else {
+          @include media('screen', '#{$breakPoint}') {
+            grid-template-rows: $parsedArguments;
+            -ms-grid-rows: $parsedArguments !important;
+        }
+      }
+    }
+
+    // grid template columns
+    @if ($parsedModifierName == _templateColumns) {
+      @if ($breakPoint == 'default') {
+        grid-template-columns: $parsedArguments;
+        -ms-grid-columns: $parsedArguments !important;
+      } @else {
+          @include media('screen', '#{$breakPoint}') {
+            grid-template-columns: $parsedArguments;
+            -ms-grid-columns: $parsedArguments !important;
         }
       }
     }

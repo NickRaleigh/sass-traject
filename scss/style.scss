@@ -1,7 +1,6 @@
 @import 'include-media';
 @import 'traject-parse-helper';
 @import 'traject';
-@import 'traject-solo';
 
 *{ margin: 0; padding: 0; }
 
@@ -12,57 +11,34 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
 
   'default': [
     'nav body body',
-    'sidebar body body'
+    'sidebar body body',
+
+    '_templateColumns(200px 1fr)'
   ],
 
   '<=tablet': [
-    'nav body body',
-    'nav body body'
+    'nav sidebar',
+    'body body',
+
+    '_templateRows(90px 1fr)',
+    '_templateColumns(90px 1fr)'
+  ],
+
+  '<=550px': [
+    'nav',
+    'body',
+
+    '_hide:sidebar',
+    '_templateRows(90px 1fr)',
+    '_templateColumns(1fr)'
   ]
-
-  //   '_nav(- - -)' row nowrap
-  //   '_nav(- - - >)' row wrap
-
-  //   '_nav(x - -)' row nowrap flex-start
-  //   '_nav(_ - -)' row nowrap flex-start flex-end
-  //   '_nav(^ - -)' row nowrap flex-start flex-start
-  //   '_nav(+ - -)' row nowrap flex-start center
-
-  //   '_nav(x - - >)' row wrap flex-start
-  //   '_nav(_ - - >)' row wrap flex-start flex-end
-  //   '_nav(^ - - >)' row wrap flex-start flex-start
-  //   '_nav(+ - - >)' row wrap flex-start center
-
-  //   '_nav(< + - - >)' reverse-row wrap flex-start center
-  //   '_nav(< + - + >)' reverse-row wrap space-between center
-  //   '_nav(< + - + - >)' reverse-row wrap space-around center
-
-  //   '_products: ^ - ^'
-
-
-  // ],
-
-  // '<=500px': [
-  //   'body body sidebar',
-  //   '_show:sidebar',
-  //   '_hide:nav'
-  // ]
-
-  // '_flex(ro,a,b,w):nav'
-
-   // '<550px' : [
-   //   'nav',
-   //   'body',
-   //   '_hide:sidebar',
-   //   '_flex(column,center,center,nowrap):body',
-   // ]
 
  ));
 
   height: 100vh;
   width: 100vw;
-  &__nav { background-color: blue; }
-  &__body { background-color: green; }
-  &__sidebar { background-color: red; }
+  &__nav { background-color: darkgray; }
+  &__body { background-color: lightgray; }
+  &__sidebar { background-color: gray; }
 }
 
