@@ -1,5 +1,6 @@
 # sass-traject 
-## Traject: A simple, elegant sass mixin that makes your css grid layouts work everywhere 🙌
+![alt text](http://nickraleigh.com/wp-content/uploads/2018/10/logo.png)
+## Traject: A simple, easy-to-use sass mixin that makes your css grid layouts work everywhere 🙌
 
 CSS grid is great, right? Gone are the days of spending countless hours trying to frankenstein a layout together with nothing but floats, inline-elements, popsicle sticks, and crossed-fingers. Now we can just write a few rules and things go _exactly where you'd expect!_ Grid-template-areas even lets you _visually_ get a sneak peek of what your grid will look like, straight in the code. It's really nifty and intuitive: 
 
