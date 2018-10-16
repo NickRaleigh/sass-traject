@@ -5,24 +5,19 @@
 
 *{ margin: 0; padding: 0; }
 
-
 .box {
 $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
+
  @include traject($boxObj, (
 
   'default': [
     'nav body body',
-    'sidebar body body',
-
-    // '_nav(- + -)',
-    // '_body(hide)'
+    'sidebar body body'
   ],
 
   '<=tablet': [
     'nav body body',
-    'nav body body',
-
-    '_hide:sidebar'
+    'nav body body'
   ]
 
   //   '_nav(- - -)' row nowrap

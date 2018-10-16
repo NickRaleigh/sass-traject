@@ -2,10 +2,10 @@
 @import 'traject-symflex';
 
 // TODO: turn this into a parser
-.box {
-  @include symflex('< = = = >');
+// .box {
+  // @include symflex('< = = = >');
   // @include symflex('- - -', '&__nav');
-}
+// }
 
 @mixin parseModifiers($childrenObj, $breakPoint, $modifiers) {
 
@@ -73,6 +73,7 @@
         #{$selector} {
           display: block;
           display: initial;
+
         }
       } @else {
           @include media('screen', '#{$breakPoint}') {

@@ -28,13 +28,12 @@
     $coordinates: null;
     // loop over rows
     @each $rowNumber, $row in $templateMaster {
-      $currentRow: map-get($templateMaster, $rowNumber);
       // loop over columns
       $columnNumber: 1;
       @each $column in $row {
         // get coordinates
         @if ($column == $child) {
-          $joinedCoordinates: to-number(#{$rowNumber}#{$columnNumber});
+          $joinedCoordinates: to-number("#{$rowNumber}.#{$columnNumber}");
           @if ($coordinates == null) {
             $coordinates: $joinedCoordinates;
           } @else {
@@ -50,8 +49,16 @@
     $column-span: null;
     @if ($coordinates != null ) {
       @each $point in $coordinates {
-        $extractedRow: to-number(str-slice(quote($point), 1,1));
-        $extractedColumn: to-number(str-slice(quote($point), 2,2));
+        // this assumes 1 digit coordinates
+        // add decimal delimeter
+        $extractedRowColumn: str-split(quote($point), '.');
+
+        $extractedRow: nth($extractedRowColumn, 1);
+        $extractedRow: to-number($extractedRow);
+
+        $extractedColumn: nth($extractedRowColumn, 2);
+        $extractedColumn: to-number($extractedColumn);
+
         @if ($row-span == null) {
           $row-span: $extractedRow;
         }
@@ -70,11 +77,14 @@
       $column-span: max($column-span...) - min($column-span...) + 1;
 
 
-      // calculate origins
       $originCoordinate: quote(min($coordinates...));
-      $gridRow: to-number(str-slice($originCoordinate, 1,1));
-      $gridColumn: to-number(str-slice($originCoordinate, 2,2));
+      $gridRowColumn: str-split(unquote($originCoordinate), '.');
 
+      $gridRow: nth($gridRowColumn, 1);
+      $gridRow: to-number($gridRow);
+
+      $gridColumn: nth($gridRowColumn, 2);
+      $gridColumn: to-number($gridColumn);
 
     //calculate ms-grid-columns
     $msGridRows: unquote(str-repeat("1fr ", $masterRowCount));

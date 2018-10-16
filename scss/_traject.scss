@@ -39,6 +39,7 @@
     //check breakpoint & assign css
     @if ($breakPoint == 'default') {
       grid-template-areas: $gridTemplateCss;
+      // TODO: Add grid gap.
     } @else {
       @include media('screen', '#{$breakPoint}') {
         grid-template-areas: $gridTemplateCss;

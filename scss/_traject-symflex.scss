@@ -1,5 +1,12 @@
 // traject will parse nav(- - -) to symflex notation:
 // '- - -', &__nav
+
+// @include symflex($childObject, (
+//   'default': [
+//     '- - -'
+//   ]
+// ));
+
 @import 'traject-parse-helper';
 @mixin symflex($string, $selector:self) {
 
@@ -50,7 +57,7 @@
 
     // render
     // reconcile for flow:
-    @if ($flex-direction && $flex-wrap) {
+    @if ($flex-direction and $flex-wrap) {
         $flex-flow: #{$flex-direction} #{$flex-wrap};
     }
     @if ($flex-flow) {
