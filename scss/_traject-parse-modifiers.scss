@@ -10,47 +10,21 @@
 
     $parsedTarget: false;
     @each $name, $char in $modifier {
-      @if (str-index($name, ':')) {
+      @if ((str-index($name, ':') and ($parsedModifierName == _hide or $parsedModifierName == _show))) {
         $parsedTarget: str-split($modifier, ':');
         $parsedTarget: unquote(nth($parsedTarget, 2));
       }
     }
 
-    $modifierHasArguments: false;
-    @each $name, $char in $modifier {
-      @if (str-index($name, '(')) {
-        $modifierHasArguments: true;
-      }
+    $parsedModifier: null;
+    @if ($parsedModifierName != _hide and $parsedModifierName != _show) {
+      $parsedModifier: unquote(nth(
+        str-split($modifier, ': ')
+      , 2));
     }
-
-    $parsedArguments: null;
-    @if ($modifierHasArguments) {
-      $parsedArguments: str-replace($modifier, $search:'(', $replace: '`');
-      $parsedArguments: str-replace($parsedArguments, $search:')', $replace: '`');
-      $parsedArguments: str-split($parsedArguments, '`');
-      $parsedArguments: unquote(nth($parsedArguments, 2));
-      $parsedArguments: str-split($parsedArguments, ' ');
-    } 
 
     @if ($parsedTarget) {
       $selector: map-get($childrenObj, $parsedTarget);
-    }
-
-    // flexBox
-    @if ($parsedModifierName == _flex) {
-      $flow: unquote(nth($parsedArguments, 1));
-      $align: unquote(nth($parsedArguments, 2));
-      $justify: unquote(nth($parsedArguments, 3));
-
-      @if ($breakPoint == 'default') {
-        #{$selector} {
-          @include trajectFlexBox($flow, $align, $justify);
-        }
-      } @else {
-        @include media('screen', '#{$breakPoint}') {
-          @include trajectFlexBox($flow, $align, $justify);
-        }
-      }
     }
 
     // hide
@@ -67,6 +41,7 @@
         }
       }
     }
+
     // show
     @if ($parsedModifierName == _show) {
       @if ($breakPoint == 'default') {
@@ -86,27 +61,27 @@
     }
 
     // grid template rows
-    @if ($parsedModifierName == _templateRows) {
+    @if ($parsedModifierName == _templateRows or $parsedModifierName == _tr or $parsedModifierName == _trows) {
       @if ($breakPoint == 'default') {
-        grid-template-rows: $parsedArguments;
-        -ms-grid-rows: $parsedArguments !important;
+        grid-template-rows: $parsedModifier;
+        -ms-grid-rows: $parsedModifier !important;
       } @else {
           @include media('screen', '#{$breakPoint}') {
-            grid-template-rows: $parsedArguments;
-            -ms-grid-rows: $parsedArguments !important;
+            grid-template-rows: $parsedModifier;
+            -ms-grid-rows: $parsedModifier !important;
         }
       }
     }
 
     // grid template columns
-    @if ($parsedModifierName == _templateColumns) {
+    @if ($parsedModifierName == _templateColumns or $parsedModifierName == _tc or $parsedModifierName == _tcolumns) {
       @if ($breakPoint == 'default') {
-        grid-template-columns: $parsedArguments;
-        -ms-grid-columns: $parsedArguments !important;
+        grid-template-columns: $parsedModifier;
+        -ms-grid-columns: $parsedModifier !important;
       } @else {
           @include media('screen', '#{$breakPoint}') {
-            grid-template-columns: $parsedArguments;
-            -ms-grid-columns: $parsedArguments !important;
+            grid-template-columns: $parsedModifier;
+            -ms-grid-columns: $parsedModifier !important;
         }
       }
     }
