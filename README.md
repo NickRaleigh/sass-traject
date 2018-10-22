@@ -91,6 +91,6 @@ Uses the grid-template-rows property and assigns it to the grid.
 ie: `_templateRows: repeat(auto-fit, 186px)`
 
 ##### _templateColumns, _tcolumns, or _tc
-Uses the grid-template-rows property and assigns it to the grid.
+Uses the grid-template-columns property and assigns it to the grid.
 ie: `_tr: 200px 1fr 1fr`
 
