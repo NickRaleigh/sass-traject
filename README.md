@@ -25,8 +25,72 @@ Traject(aka sass-traject, aka not-to-be-confused with [this other unrelated repo
 ```
 $newObj: (
   name: 'css-selector',
-  secondName: 'another-selector'
+  secondName: 'another-css-selector'
 );
 
 @include traject($newObj, $settingsObject);
 ```
+
+#### Settings
+For the second argmuent of this mixin, we can either pass an array or a map. Using an array will simply apply all rules to all breakpoints:
+```
+@include traject($boxObj, [
+  'sidebar nav nav',
+  'sidebar body body'
+]);
+```
+Doing this will create `grid-template-areas` for all modern web-browsers, and the appropriate prefixes to work properly on Internet Explorer( ms-grid-row, ms-grid-column, ms-grid-row-span, ms-grid-column-span), automatically. 
+
+We can take this one step further and specify our css grid layout on certain breakpoints by passing a map instead of an array:
+```
+ @include traject($boxObj, (
+ 
+  'default': [
+    'nav body body',
+    'sidebar body body'
+  ],
+
+  '<=tablet': [
+    'nav body body',
+    'nav sidebar sidebar'
+  ]
+
+ ));
+```
+In the example above, we're assigning key-value pairs to declare our grid at specific breakpoints. We can use `'default'` to set up the layout to work outside of a media query, thus the 'default' grid. We then define our `grid-template-areas` as the value.
+
+Immediately after, we're setting up a new grid layout at the `<=tablet` breakpoint. This will override our default settings when we view the page on a smaller screen. 
+
+Using a combination of breakpoints and `grid-template-areas` gives us a lot of power on the front end to set up our grid for every breakpoint and every browser.
+
+#### Modifiers
+Modifiers give our layouts a little more control on the fly. They are added to the end of our `grid-template-areas` to modify the layout. *Modifiers always begin with an underscore, `_`*. Example syntax:
+```
+ @include traject($boxObj, (
+
+  '<=550px': [
+    'nav',
+    'body',
+    '_hide:sidebar'
+  ]
+  
+ ));
+ ```
+ `_hide:sidebar` is added to the bottom of our `grid-template-areas` array, and will hide the sidebar at this breakpoint. The keyword `sidebar` is extracted from the mixin's first argument, `$childrenObject`.
+ 
+##### _show:child
+Targets child, and sets its display css property to `initial` (`block` on IE). 
+ie: `_show:body`
+
+##### _hide:child
+Targets child, and sets its display css property to `none`. 
+ie: `_hide:nav`
+
+##### _templateRows, _trrows, or _tr
+Uses the grid-template-rows property and assigns it to the grid.
+ie: `_templateRows: repeat(auto-fit, 186px)`
+
+##### _templateColumns, _tcolumns, or _tc
+Uses the grid-template-rows property and assigns it to the grid.
+ie: `_tr: 200px 1fr 1fr`
+
