@@ -1,9 +1,10 @@
 @import 'include-media';
+@import 'traject-array';
 @import 'traject-parse-helper';
 @import 'traject-parse-modifiers';
 @import 'traject-parse-ie';
 
-@mixin traject($childrenObj:(), $settingsObj:()) {
+@mixin traject($childrenObj:(), $settingsObj:[]) {
   // create grid
   display: grid;
 
@@ -14,50 +15,56 @@
     }
   }
 
-  // loop over entire object
-  @each $breakPoint, $settings in $settingsObj {
-    $gridTemplate: [];
-    $gridModifiers: [];
+  @if(type-of($settingsObj) == 'list') {
+    @include traject-array($childrenObj, $settingsObj);
+  }
 
-    //loop over each setting to remove grid-template-area from special grid modifiers.
-    @each $setting in $settings {
-      $first-char: str-slice(quote($setting), 1,1);
-      @if ($first-char != _) {
-        $gridTemplate: join($gridTemplate, $setting, comma);
-      }
-      @else {
-        $gridModifiers: join($gridModifiers, $setting, comma);
-      }
-    }
+  @else {
+    // loop over entire object
+    @each $breakPoint, $settings in $settingsObj {
+      $gridTemplate: [];
+      $gridModifiers: [];
 
-    // convert gridTemplate to set of strings for css
-    $gridTemplateCss: null;
-    @each $row in $gridTemplate {
-      @if ($gridTemplateCss == null) {
-        $gridTemplateCss: $row;
+      //loop over each setting to remove grid-template-area from special grid modifiers.
+      @each $setting in $settings {
+        $first-char: str-slice(quote($setting), 1,1);
+        @if ($first-char != _) {
+          $gridTemplate: join($gridTemplate, $setting, comma);
+        }
+        @else {
+          $gridModifiers: join($gridModifiers, $setting, comma);
+        }
       }
-      @else {
-        $gridTemplateCss: join($gridTemplateCss,$row, space);
-      }
-    }
 
-    //check breakpoint & assign css
-    @if ($breakPoint == 'default') {
-      grid-template-areas: $gridTemplateCss;
-      // TODO: Add grid gap.
-    } @else {
-      @include media('screen', '#{$breakPoint}') {
+      // convert gridTemplate to set of strings for css
+      $gridTemplateCss: null;
+      @each $row in $gridTemplate {
+        @if ($gridTemplateCss == null) {
+          $gridTemplateCss: $row;
+        }
+        @else {
+          $gridTemplateCss: join($gridTemplateCss,$row, space);
+        }
+      }
+
+      //check breakpoint & assign css
+      @if ($breakPoint == 'default') {
         grid-template-areas: $gridTemplateCss;
+        // TODO: Add grid gap.
+      } @else {
+        @include media('screen', '#{$breakPoint}') {
+          grid-template-areas: $gridTemplateCss;
+        }
       }
+
+      //process grid modifiers
+      @include parseModifiers($childrenObj, $breakPoint, $gridModifiers);
+
+      // parse traject for internet explorer
+      $preventDefaultDuplicates: 0;
+      $preventBpDuplicates: 0;
+      @include parseIE($childrenObj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
+
     }
-
-    //process grid modifiers
-    @include parseModifiers($childrenObj, $breakPoint, $gridModifiers);
-
-    // parse traject for internet explorer
-    $preventDefaultDuplicates: 0;
-    $preventBpDuplicates: 0;
-    @include parseIE($childrenObj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
-
   }
 }

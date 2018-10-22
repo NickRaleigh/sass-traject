@@ -1,0 +1,39 @@
+@mixin traject-array($childrenObj, $settingsArray) {
+  $gridTemplate: [];
+  $gridModifiers: [];
+  $breakPoint: 'default';
+  @each $setting in $settingsArray {
+
+    //loop over each setting to remove grid-template-area from special grid modifiers.
+      $first-char: str-slice(quote($setting), 1,1);
+      @if ($first-char != _) {
+        $gridTemplate: join($gridTemplate, $setting, comma);
+      }
+      @else {
+        $gridModifiers: join($gridModifiers, $setting, comma);
+      }
+    }
+
+    // convert gridTemplate to set of strings for css
+    $gridTemplateCss: null;
+    @each $row in $gridTemplate {
+      @if ($gridTemplateCss == null) {
+        $gridTemplateCss: $row;
+      }
+      @else {
+        $gridTemplateCss: join($gridTemplateCss,$row, space);
+      }
+    }
+
+      grid-template-areas: $gridTemplateCss;
+      // TODO: Add grid gap.
+
+    //process grid modifiers
+    @include parseModifiers($childrenObj, $breakPoint, $gridModifiers);
+
+    // parse traject for internet explorer
+    $preventDefaultDuplicates: 0;
+    $preventBpDuplicates: 0;
+    @include parseIE($childrenObj, $gridTemplate, $breakPoint, $preventDefaultDuplicates, $preventBpDuplicates);
+
+}
