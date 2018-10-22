@@ -4,14 +4,16 @@
 @import 'traject-parse-modifiers';
 @import 'traject-parse-ie';
 
-@mixin traject($childrenObj:(), $settingsObj:[]) {
+@mixin traject($childrenObj:null, $settingsObj:[]) {
   // create grid
   display: grid;
 
   // name template-areas of children
-  @each $name, $selector in $childrenObj {
-    #{$selector} {
-      grid-area: $name;
+  @if ($childrenObj != null) {
+    @each $name, $selector in $childrenObj {
+      #{$selector} {
+        grid-area: $name;
+      }
     }
   }
 

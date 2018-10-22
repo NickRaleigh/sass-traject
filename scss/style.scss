@@ -8,9 +8,10 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
  @include traject($boxObj, (
 
   'default': [
-    'nav body body',
+    'nav nav nav',
     'sidebar body body',
-    '_templateRows: repeat(auto-fit, 186px)'
+    '_tr: 85px 1fr',
+    '_tc: 1fr 3fr'
   ],
 
   '<=tablet': [
@@ -24,7 +25,6 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
     '_hide:sidebar'
   ]
 
-
  ));
 
   height: 100vh;
@@ -32,5 +32,18 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
   &__nav { background-color: darkgray; }
   &__body { background-color: lightgray; }
   &__sidebar { background-color: gray; }
-}
+
+  .body-items {
+    width: 100%;
+    grid-gap: 50px;
+    @include traject(null, [
+      '_tc: repeat(auto-fill, minmax(250px, 1fr))'
+    ]);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  }
 
