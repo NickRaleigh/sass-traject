@@ -11,6 +11,7 @@
     $parsedTarget: false;
     @each $name, $char in $modifier {
       @if ((str-index($name, ':') and ($parsedModifierName == _hide or $parsedModifierName == _show))) {
+        $modifier: str-replace($modifier, ' ');
         $parsedTarget: str-split($modifier, ':');
         $parsedTarget: unquote(nth($parsedTarget, 2));
       }

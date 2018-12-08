@@ -1,0 +1,33 @@
+@function detect-children($layout) {
+  $children: ();
+
+  $layout: remove-duplicates($layout);
+  $layout: to-string($layout);
+  $layout: str-replace($layout, '\"');
+  $layout: str-replace($layout, '(');
+  $layout: str-replace($layout, ')');
+  $layout: str-replace($layout, '.');
+  $layout: str-split($layout, " ");
+  $layout: remove-duplicates($layout);
+
+
+  @each $child in $layout {
+      @if ($child != '.' and str-index($child, '=') == null and str-index($child, '>') == null and str-index($child, '<') == null and str-index($child, '_hide:') == null and str-index($child, '_show:') == null and str-index($child, '_tc:') == null and str-index($child, '_templateColumns:') == null and str-index($child, '_tcolumns:') == null and str-index($child, '_tr:') == null and str-index($child, '_templateRows:') == null and str-index($child, '_trows:') == null) {
+      $list-item: (
+        $child: '&__#{$child}'
+      );
+      $children: map-merge($children, $list-item);
+    }
+    @if (str-index($child, '_hide:')) {
+      $hider: str-replace($child, '_hide:');
+      $list-item: (
+        $hider: '&__#{$hider}'
+      );
+      $children: map-merge($children, $list-item);
+    }
+  }
+
+
+
+  @return $children;
+}

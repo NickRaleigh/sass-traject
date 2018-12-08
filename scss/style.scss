@@ -3,29 +3,23 @@
 *{ margin: 0; padding: 0; }
 
 .box {
-$boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
 
- @include traject($boxObj, (
+  @include traject((
 
-  'default': [
-    'nav nav nav',
-    'sidebar body body',
-    '_tr: 85px 1fr',
-    '_tc: 1fr 3fr'
-  ],
+    'default': (
+      'nav nav nav',
+      'sidebar body body',
+      '_tr: 85px 1fr',
+      '_tc: 1fr 1fr 1fr'
+    ),
 
-  '<=tablet': [
-    'nav body body',
-    'nav sidebar sidebar'
-  ],
+    '<=tablet': (
+      'nav nav nav',
+      'body body body',
+      '_hide: sidebar'
+    )
 
-  '<=550px': [
-    'nav',
-    'body',
-    '_hide:sidebar'
-  ]
-
- ));
+  ));
 
   height: 100vh;
   width: 100vw;
@@ -33,17 +27,5 @@ $boxObj: ( nav: '&__nav', body: '&__body', sidebar: '&__sidebar');
   &__body { background-color: lightgray; }
   &__sidebar { background-color: gray; }
 
-  .body-items {
-    width: 100%;
-    grid-gap: 50px;
-    @include traject(null, [
-      '_tc: repeat(auto-fill, minmax(250px, 1fr))'
-    ]);
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
   }
 

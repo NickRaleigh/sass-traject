@@ -3,10 +3,15 @@
 @import 'traject-parse-helper';
 @import 'traject-parse-modifiers';
 @import 'traject-parse-ie';
+@import 'traject-detect-children';
 
-@mixin traject($childrenObj:null, $settingsObj:[]) {
+@mixin traject($settingsObj, $childrenObj:null) {
   // create grid
   display: grid;
+
+  @if ($childrenObj == null) {
+    $childrenObj: detect-children($settingsObj);
+  }
 
   // name template-areas of children
   @if ($childrenObj != null) {
@@ -69,4 +74,7 @@
 
     }
   }
+}
+@function to-string($value) {
+  @return inspect($value);
 }
